@@ -24,6 +24,9 @@
           buildInputs = [
             rust-analyzer
             rust-bin.nightly.latest.default
+            gdb
+            # Viewing images
+            image-roll
           ];
 
           shellHook = shell-hook "default";
