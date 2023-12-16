@@ -53,7 +53,7 @@ impl Viewport {
         self.set_rgb(xr, yr, rgb);
     }
 
-    pub fn draw_line(&mut self, x0: f32, y0: f32, x1: f32, y1: f32, rgb: (u8, u8, u8)) {
+    pub fn draw_line1(&mut self, x0: f32, y0: f32, x1: f32, y1: f32, rgb: (u8, u8, u8)) {
         let mut t: f32 = 0.;
         while t < 1. {
             let x = x0 + ((x1 - x0) * t);
@@ -62,6 +62,18 @@ impl Viewport {
             self.put_pixel(x, y, rgb);
 
             t += 0.001;
+        }
+    }
+
+    pub fn draw_line2(&mut self, x0: f32, y0: f32, x1: f32, y1: f32, rgb: (u8, u8, u8)) {
+        let mut x = x0;
+        while x <= x1 {
+            let t: f32 = (x - x0) / (x1 - x0);
+            let y: f32 = y0 * (1. - t) + y1 * t;
+
+            self.put_pixel(x, y, rgb);
+
+            x += 0.0001;
         }
     }
 
