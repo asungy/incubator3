@@ -4,18 +4,6 @@ pub struct Viewport {
     rgb_buffer: Vec<u8>,
 }
 
-// fn line(x0: u32, y0: u32, x1: u32, y1: u32, rgb_image: &mut RgbImage, color: Rgb<u8>) -> () {
-//     let mut t: f32 = 0.;
-//     while t < 1. {
-//         let x = x0 + ((x1 - x0) * t);
-//         let y = y0 + ((y1 - y0) * t);
-//
-//         rgb_image.put_pixel(x, y, color);
-//
-//         t += 0.01;
-//     }
-// }
-
 impl Viewport {
     pub fn new(width: u32, height: u32) -> Self {
         Viewport {
@@ -65,8 +53,19 @@ impl Viewport {
         self.set_rgb(xr, yr, rgb);
     }
 
+    pub fn draw_line(&mut self, x0: f32, y0: f32, x1: f32, y1: f32, rgb: (u8, u8, u8)) {
+        let mut t: f32 = 0.;
+        while t < 1. {
+            let x = x0 + ((x1 - x0) * t);
+            let y = y0 + ((y1 - y0) * t);
+
+            self.put_pixel(x, y, rgb);
+
+            t += 0.001;
+        }
+    }
+
     pub fn save_image<Q: AsRef<std::path::Path>>(&self, path: Q) -> anyhow::Result<()> {
-        // FIX: Do better error handling.
         let mut image = image::RgbImage::new(
             self.width, self.height
         );
